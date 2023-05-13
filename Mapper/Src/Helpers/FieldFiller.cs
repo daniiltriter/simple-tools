@@ -14,13 +14,15 @@ internal static class FieldFiller
         {
             if (member is PropertyInfo property)
             {
-                var requiredCut = cuts.FirstOrDefault(_ => _.Name == property.Name && _.Type == property.PropertyType);
+                var receivedType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                var requiredCut = cuts.FirstOrDefault(_ => _.Name == property.Name && _.Type == receivedType);
                 property.SetValue(result, requiredCut?.Value);
             }
 
             if (member is FieldInfo field)
             {
-                var requiredSlice = cuts.FirstOrDefault(_ => _.Name == field.Name && _.Type == field.FieldType);
+                var receivedType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
+                var requiredSlice = cuts.FirstOrDefault(_ => _.Name == field.Name && _.Type == receivedType);
                 field.SetValue(result, requiredSlice?.Value);
             }
         }

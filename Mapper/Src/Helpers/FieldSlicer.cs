@@ -14,13 +14,15 @@ internal static class FieldSlicer
         {
             if (m is PropertyInfo property)
             {
-                var cut = new FieldCut(property.Name, property.PropertyType, property.GetValue(source));
+                var propertyType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                var cut = new FieldCut(property.Name, propertyType, property.GetValue(source));
                 cuts.Add(cut);
             }
             
             if (m is FieldInfo field)
             {
-                var cut = new FieldCut(field.Name, field.FieldType, field.GetValue(source));
+                var fieldType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
+                var cut = new FieldCut(field.Name, fieldType, field.GetValue(source));
                 cuts.Add(cut);
             }
         });
