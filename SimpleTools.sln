@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryCollector", "MemoryCollector\MemoryCollector.csproj", "{AF4A7182-ADA5-46D8-9EC8-5CA0F884CFB4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapper.Playground", "Mapper.Playground\Mapper.Playground.csproj", "{9434E652-D8EA-4889-AF2D-30BE49F19C58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapper", "Mapper\Mapper.csproj", "{7E65DE55-4122-46AC-B74E-55215F56FFCE}"
@@ -14,10 +12,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AF4A7182-ADA5-46D8-9EC8-5CA0F884CFB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF4A7182-ADA5-46D8-9EC8-5CA0F884CFB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF4A7182-ADA5-46D8-9EC8-5CA0F884CFB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF4A7182-ADA5-46D8-9EC8-5CA0F884CFB4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9434E652-D8EA-4889-AF2D-30BE49F19C58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9434E652-D8EA-4889-AF2D-30BE49F19C58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9434E652-D8EA-4889-AF2D-30BE49F19C58}.Release|Any CPU.ActiveCfg = Release|Any CPU

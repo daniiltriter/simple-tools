@@ -5,8 +5,12 @@ namespace SimpleTools.Mapper.Extensions;
 
 public static class IoCExtensions
 {
-    public static IServiceCollection AddMapper(this IServiceCollection services)
+    // TODO: make other method that not will be require configuration
+    public static IServiceCollection AddMapper(this IServiceCollection services, Action<MapperOptions> mapperConfiguration)
     {
+        var mapperOptions = new MapperOptions();
+        mapperConfiguration(mapperOptions);
+        services.AddSingleton(mapperOptions);
         services.AddSingleton<IMapper, DefaultMapper>();
         return services;
     }
