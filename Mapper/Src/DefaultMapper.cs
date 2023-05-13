@@ -1,10 +1,10 @@
 using SimpleTools.Mapper.Abstractions;
-using SimpleTools.Mapper.Extensions;
+using SimpleTools.Mapper.DI;
 using SimpleTools.Mapper.Helpers;
 
 namespace SimpleTools.Mapper;
 
-public class DefaultMapper : IMapper
+internal class DefaultMapper : IMapper
 {
     private readonly MapperOptions _options;
 
@@ -26,10 +26,10 @@ public class DefaultMapper : IMapper
     
     private void ApplyOptions<TSource, TResult>(TSource source, ref TResult result)
     {
-        var config = _options.GetConfigFor<TSource, TResult>();
+        var config = _options.GetPairConfiguration<TSource, TResult>();
         if (config != null)
         {
-            config.Act().Do(ref result);
+            config.Apply(ref result);
         }
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SimpleTools.Mapper.Abstractions;
 
-namespace SimpleTools.Mapper.Extensions;
+namespace SimpleTools.Mapper.DI;
 
 public static class IoCExtensions
 {

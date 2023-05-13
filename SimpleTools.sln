@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapper", "Mapper\Mapper.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playground", "Playground", "{2FC69A83-923A-4D85-84C9-2D4896F3FE4E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{EB2283B6-61D7-4392-9220-BFB9AB5AB3F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,5 +25,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9434E652-D8EA-4889-AF2D-30BE49F19C58} = {2FC69A83-923A-4D85-84C9-2D4896F3FE4E}
+		{7E65DE55-4122-46AC-B74E-55215F56FFCE} = {EB2283B6-61D7-4392-9220-BFB9AB5AB3F8}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,7 @@
 using SimpleTools.Mapper.Abstractions;
+using SimpleTools.Mapper.Configurations;
 
-namespace SimpleTools.Mapper.Extensions;
+namespace SimpleTools.Mapper.DI;
 
 public class MapperOptions
 {
@@ -11,19 +12,33 @@ public class MapperOptions
         _configurations.Add(new TMapConfiguration());
         return this;
     }
-    
-    // TODO: need to refactor 
-    internal MapConfiguration GetConfigFor<TSource, TResult>()
+
+    internal MapConfiguration GetPairConfiguration<TSource, TResult>()
     {
         foreach (var config in _configurations)
         {
-            var typeTuple = config.GetSourceResultPair();
+            var typeTuple = config.GetTypePair();
             if (typeTuple.Item1 == typeof(TSource) && typeTuple.Item2 == typeof(TResult))
             {
                 return config;
             }
         }
-
+        
         return null;
     }
+    
+    // TODO: need to refactor and divide    
+    // private MapConfiguration GetPairConfiguration<TSource, TResult>()
+    // {
+    //     foreach (var config in _configurations)
+    //     {
+    //         var typeTuple = config.GetSourceResultPair();
+    //         if (typeTuple.Item1 == typeof(TSource) && typeTuple.Item2 == typeof(TResult))
+    //         {
+    //             return config;
+    //         }
+    //     }
+    //
+    //     return null;
+    // }
 }

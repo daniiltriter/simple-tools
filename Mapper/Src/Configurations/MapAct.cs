@@ -3,21 +3,13 @@ using System.Reflection;
 using SimpleTools.Mapper.Abstractions;
 using SimpleTools.Mapper.Primitivies;
 
-namespace SimpleTools.Mapper;
+namespace SimpleTools.Mapper.Configurations;
 
-public class MapAct<TSource, TResult> : IMapAct
+internal class MapAct<TSource, TResult> : IMapAct<TSource, TResult>
 {
     private readonly ICollection<MapCriterion> _сriteria = new List<MapCriterion>();
-
-    public void Do<TResult>(ref TResult result)
-    {
-        foreach (var сriterion in _сriteria)
-        {
-            сriterion.Action(result);
-        }
-    }
-
-    public MapAct<TSource, TResult> Ignore<TMember>(Expression<Func<TSource, TMember>> expression)
+    
+    public IMapAct<TSource, TResult> Ignore<TMember>(Expression<Func<TSource, TMember>> expression)
     {
         var property = expression.Body as MemberExpression;
         var name = property.Member.Name;
@@ -52,5 +44,10 @@ public class MapAct<TSource, TResult> : IMapAct
         Func<TSource, TAlternate> alternate)
     {
         return this;
+    }
+
+    internal ICollection<MapCriterion> TransitCriteria()
+    {
+        return _сriteria;
     }
 }
