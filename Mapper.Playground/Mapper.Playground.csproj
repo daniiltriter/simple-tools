@@ -10,7 +10,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Mapper\Mapper.csproj" />
-      <ProjectReference Include="..\MemoryCollector\MemoryCollector.csproj" />
     </ItemGroup>
 
     <ItemGroup>

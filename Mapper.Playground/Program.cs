@@ -1,5 +1,10 @@
-﻿var services = new ServiceCollection()
-    .AddMapper()
+﻿using Mapper.Playground.Models;
+
+var services = new ServiceCollection()
+    .AddMapper(options =>
+    {
+        options.With<ActorMapConfiguration>();
+    })
     .BuildServiceProvider();
 
 // arrange
@@ -9,6 +14,7 @@ var settings = new ActorSettings()
     Name = Faker.Name.Last(),
     Enabled = Faker.Boolean.Random()
 };
+actor.Settings = settings;
 
 // act
 var mapper = services.GetService<IMapper>();
@@ -18,6 +24,8 @@ var model = mapper.Map<Actor, ActorModel>(actor);
 model.Name.Should().Be(actor.Name);
 model.Role.Should().Be(actor.Role);
 model.Settings.Should().Be(actor.Settings);
+
+
 
 
 
