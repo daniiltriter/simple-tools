@@ -1,12 +1,11 @@
 using SimpleTools.Mapper.Abstractions;
-using SimpleTools.Mapper.Extensions;
+using SimpleTools.Mapper.DI;
 using SimpleTools.Mapper.Helpers;
 
 namespace SimpleTools.Mapper;
 
-public class DefaultMapper : IMapper
+internal class DefaultMapper : IMapper
 {
-    
     private readonly MapperOptions _options;
 
     public DefaultMapper(MapperOptions options)

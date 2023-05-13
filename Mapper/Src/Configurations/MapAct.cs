@@ -3,7 +3,7 @@ using System.Reflection;
 using SimpleTools.Mapper.Abstractions;
 using SimpleTools.Mapper.Primitivies;
 
-namespace SimpleTools.Mapper;
+namespace SimpleTools.Mapper.Configurations;
 
 internal class MapAct<TSource, TResult> : IMapAct<TSource, TResult>
 {

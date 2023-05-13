@@ -1,6 +1,7 @@
 using SimpleTools.Mapper.Abstractions;
+using SimpleTools.Mapper.Configurations;
 
-namespace SimpleTools.Mapper.Extensions;
+namespace SimpleTools.Mapper.DI;
 
 public class MapperOptions
 {

@@ -1,4 +1,4 @@
-﻿using Mapper.Playground.Models;
+﻿using SimpleTools.Mapper.DI;
 
 var services = new ServiceCollection()
     .AddMapper(options =>

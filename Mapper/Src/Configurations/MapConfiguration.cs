@@ -1,6 +1,7 @@
+using SimpleTools.Mapper.Abstractions;
 using SimpleTools.Mapper.Primitivies;
 
-namespace SimpleTools.Mapper.Abstractions;
+namespace SimpleTools.Mapper.Configurations;
 
 public abstract class MapConfiguration
 {
