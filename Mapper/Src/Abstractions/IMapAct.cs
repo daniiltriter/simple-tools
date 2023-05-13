@@ -1,6 +1,8 @@
+using System.Linq.Expressions;
+
 namespace SimpleTools.Mapper.Abstractions;
 
-public interface IMapAct
+public interface IMapAct<TSource, TResult>
 {
-    public void Do<TResult>(ref TResult result);
+    IMapAct<TSource, TResult> Ignore<TMember>(Expression<Func<TSource, TMember>> expression);
 }

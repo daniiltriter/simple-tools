@@ -6,6 +6,7 @@ namespace SimpleTools.Mapper;
 
 public class DefaultMapper : IMapper
 {
+    
     private readonly MapperOptions _options;
 
     public DefaultMapper(MapperOptions options)
@@ -26,10 +27,10 @@ public class DefaultMapper : IMapper
     
     private void ApplyOptions<TSource, TResult>(TSource source, ref TResult result)
     {
-        var config = _options.GetConfigFor<TSource, TResult>();
+        var config = _options.GetPairConfiguration<TSource, TResult>();
         if (config != null)
         {
-            config.Act().Do(ref result);
+            config.Apply(ref result);
         }
     }
 }
