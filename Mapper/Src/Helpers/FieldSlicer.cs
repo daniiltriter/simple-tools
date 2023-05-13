@@ -1,5 +1,5 @@
 using System.Reflection;
-using Mapper.Extensions;
+using SimpleTools.Mapper.Extensions;
 using SimpleTools.Mapper.Primitivies;
 
 namespace SimpleTools.Mapper.Helpers;

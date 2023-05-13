@@ -1,48 +1,35 @@
-using System.Reflection;
 using SimpleTools.Mapper.Abstractions;
-using SimpleTools.Mapper.Primitivies;
+using SimpleTools.Mapper.Extensions;
+using SimpleTools.Mapper.Helpers;
 
 namespace SimpleTools.Mapper;
 
 public class DefaultMapper : IMapper
 {
+    private readonly MapperOptions _options;
+
+    public DefaultMapper(MapperOptions options)
+    {
+        _options = options;
+    }
+    
     public TResult Map<TSource, TResult>(TSource source) where TResult : new()
     {
-        var sourceCuts = new List<FieldCut>();
-        var members = typeof(TSource).GetMembers();
-        foreach (var member in members)
-        {
-            if (member is PropertyInfo property)
-            {
-                var cut = new FieldCut(property.Name, property.PropertyType, property.GetValue(source));
-                sourceCuts.Add(cut);
-            }
-            
-            if (member is FieldInfo field)
-            {
-                var cut = new FieldCut(field.Name, field.FieldType, field.GetValue(source));
-                sourceCuts.Add(cut);
-            }
-        }
-
-        var result = new TResult();
+        var sourceCuts = FieldSlicer.Cuts(source);
         
-        var resultMembers = result.GetType().GetMembers();
-        foreach (var member in resultMembers)
+        var mapped = FieldFiller.ByCuts<TResult>(sourceCuts);
+        
+        ApplyOptions(source, ref mapped);
+
+        return mapped;
+    }
+    
+    private void ApplyOptions<TSource, TResult>(TSource source, ref TResult result)
+    {
+        var config = _options.GetConfigFor<TSource, TResult>();
+        if (config != null)
         {
-            if (member is PropertyInfo property)
-            {
-                var requiredCut = sourceCuts.FirstOrDefault(_ => _.Name == property.Name && _.Type == property.PropertyType);
-                property.SetValue(result, requiredCut?.Value);
-            }
-
-            if (member is FieldInfo field)
-            {
-                var requiredSlice = sourceCuts.FirstOrDefault(_ => _.Name == field.Name && _.Type == field.FieldType);
-                field.SetValue(result, requiredSlice?.Value);
-            }
+            config.Act().Do(ref result);
         }
-
-        return result;
     }
 }
