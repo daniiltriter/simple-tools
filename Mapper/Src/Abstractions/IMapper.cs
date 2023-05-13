@@ -1,5 +1,3 @@
-using SimpleTools.Mapper.Primitivies;
-
 namespace SimpleTools.Mapper.Abstractions;
 
 public interface IMapper

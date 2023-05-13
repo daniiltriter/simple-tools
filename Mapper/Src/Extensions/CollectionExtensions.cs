@@ -1,4 +1,4 @@
-namespace Mapper.Extensions;
+namespace SimpleTools.Mapper.Extensions;
 
 public static class CollectionExtensions
 {
