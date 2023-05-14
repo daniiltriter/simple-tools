@@ -11,16 +11,16 @@ public class DefaultMapper : IMapper
     private readonly MapperOptions _options;
     private readonly TypeCutCache _cuts;
 
-    public DefaultMapper(MapperOptions options, IServiceProvider services)
+    public DefaultMapper(MapperOptions options, TypeCutCache cuts)
     {
         _options = options;
-        _cuts = services.GetService(typeof(TypeCutCache)) as TypeCutCache;
+        _cuts = cuts;
     }
     
     public TResult Map<TSource, TResult>(TSource source) where TResult : new()
     {
         var sourceCuts = _cuts.GetOrAdd<TSource>();
-        
+
         foreach (var cut in sourceCuts)
         {
             cut.FillValue(source);

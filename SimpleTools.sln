@@ -8,6 +8,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playground", "Playground", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{EB2283B6-61D7-4392-9220-BFB9AB5AB3F8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmark", "Benchmark", "{1F67C84D-59E7-4B89-A930-F72399C5E788}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapper.Benchmark", "Mapper.Benchmark\Mapper.Benchmark.csproj", "{4EA5783F-E6A4-46D5-9ACA-61ABDE1B36AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,9 +26,14 @@ Global
 		{7E65DE55-4122-46AC-B74E-55215F56FFCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E65DE55-4122-46AC-B74E-55215F56FFCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E65DE55-4122-46AC-B74E-55215F56FFCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EA5783F-E6A4-46D5-9ACA-61ABDE1B36AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EA5783F-E6A4-46D5-9ACA-61ABDE1B36AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EA5783F-E6A4-46D5-9ACA-61ABDE1B36AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EA5783F-E6A4-46D5-9ACA-61ABDE1B36AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9434E652-D8EA-4889-AF2D-30BE49F19C58} = {2FC69A83-923A-4D85-84C9-2D4896F3FE4E}
 		{7E65DE55-4122-46AC-B74E-55215F56FFCE} = {EB2283B6-61D7-4392-9220-BFB9AB5AB3F8}
+		{4EA5783F-E6A4-46D5-9ACA-61ABDE1B36AA} = {1F67C84D-59E7-4B89-A930-F72399C5E788}
 	EndGlobalSection
 EndGlobal
