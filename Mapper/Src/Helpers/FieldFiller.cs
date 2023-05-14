@@ -18,7 +18,7 @@ internal static class FieldFiller
                 var requiredCut = cuts.FirstOrDefault(_ => _.Name == property.Name && _.Type == receivedType);
                 property.SetValue(result, requiredCut?.Value);
             }
-
+        
             if (member is FieldInfo field)
             {
                 var receivedType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;

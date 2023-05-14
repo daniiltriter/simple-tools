@@ -8,7 +8,7 @@ namespace SimpleTools.Mapper.Configurations;
 internal class MapAct<TSource, TResult> : IMapAct<TSource, TResult>
 {
     private readonly ICollection<MapCriterion> _сriteria = new List<MapCriterion>();
-    
+
     public IMapAct<TSource, TResult> Ignore<TMember>(Expression<Func<TSource, TMember>> expression)
     {
         var property = expression.Body as MemberExpression;
@@ -39,12 +39,21 @@ internal class MapAct<TSource, TResult> : IMapAct<TSource, TResult>
         _сriteria.Add(newCriterion);
         return this;
     }
-    public MapAct<TSource, TResult> ChangeValueFor<TAlternate>(
-        Expression<Func<TResult, TAlternate>> expression, 
-        Func<TSource, TAlternate> alternate)
+
+    public IMapAct<TSource, TResult> Alternate<TMember>(Expression<Func<TResult, TMember>> expression, Func<TSource, TMember> alternate)
     {
-        return this;
+        throw new NotImplementedException();
     }
+
+    // public IMapAct<TSource, TResult> Alternate<TMember>(Expression<Func<TResult, TMember>> expression, Func<TSource, TMember> alternate)
+    // {
+    //     var type = typeof(Func<object, object>);
+    //     var newCriterion = new MapCriterion()
+    //     {
+    //         Action = (type)(object)alternate,
+    //     }
+    // }
+    
 
     internal ICollection<MapCriterion> TransitCriteria()
     {

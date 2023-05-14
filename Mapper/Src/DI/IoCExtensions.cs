@@ -1,3 +1,4 @@
+using Mapper;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleTools.Mapper.Abstractions;
 
@@ -10,8 +11,11 @@ public static class IoCExtensions
     {
         var mapperOptions = new MapperOptions();
         mapperConfiguration(mapperOptions);
+        
         services.AddSingleton(mapperOptions);
         services.AddSingleton<IMapper, DefaultMapper>();
+        services.AddSingleton<TypeCutCache>();
+        
         return services;
     }
 }
