@@ -5,7 +5,7 @@ namespace Mapper;
 
 public class TypeCutCache
 {
-    private readonly Dictionary<Type, ICollection<FieldCut>> _data = new Dictionary<Type, ICollection<FieldCut>>();
+    private readonly Dictionary<Type, ICollection<FieldCut>> _data = new();
 
     internal ICollection<FieldCut> GetOrAdd<T>()
     {

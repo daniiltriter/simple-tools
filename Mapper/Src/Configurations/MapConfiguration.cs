@@ -18,7 +18,8 @@ public abstract class MapConfiguration
         var act = new MapAct<TSource, TResult>();
         _sourceResultTypePair = new KeyValuePair<Type, Type>(typeof(TSource), typeof(TResult));
         modifiers(act);
-        foreach (var criterion in act.TransitCriteria())
+        var criteria = act.TransitCriteria();
+        foreach (var criterion in criteria)
         {
             _сriteria.Add(criterion);
         }

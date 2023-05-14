@@ -8,25 +8,41 @@ internal static class FieldFiller
     public static TFilled ByCuts<TFilled>(IEnumerable<FieldCut> cuts) where TFilled : new()
     {
         var result = new TFilled();
-        
-        var resultMembers = result.GetType().GetMembers();
-        foreach (var member in resultMembers)
+        var resultType = result.GetType();
+
+        foreach (var cut in cuts)
         {
-            if (member is PropertyInfo property)
+            if (cut.MemberType == MemberType.Field)
             {
-                var receivedType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-                var requiredCut = cuts.FirstOrDefault(_ => _.Name == property.Name && _.Type == receivedType);
-                property.SetValue(result, requiredCut?.Value);
+                var requiredField = resultType.GetField(cut.Name);
+                if (requiredField == null)
+                {
+                    continue;
+                }
+                var fieldType = Nullable.GetUnderlyingType(requiredField.FieldType) ?? requiredField.FieldType;
+                if (requiredField.FieldType == fieldType)
+                {
+                    requiredField.SetValue(result, cut.Value);
+                } 
+                continue;
             }
-        
-            if (member is FieldInfo field)
+
+            if (cut.MemberType == MemberType.Property)
             {
-                var receivedType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
-                var requiredSlice = cuts.FirstOrDefault(_ => _.Name == field.Name && _.Type == receivedType);
-                field.SetValue(result, requiredSlice?.Value);
+                var requiredProperty = resultType.GetField(cut.Name);
+                if (requiredProperty == null)
+                {
+                    continue;
+                }
+
+                var propertyType = Nullable.GetUnderlyingType(requiredProperty.FieldType) ?? requiredProperty.FieldType;
+                if (requiredProperty.FieldType == propertyType)
+                {
+                    requiredProperty.SetValue(result, cut.Value);
+                }
             }
         }
-
+        
         return result;
     }
 }

@@ -22,12 +22,14 @@ internal class MapAct<TSource, TResult> : IMapAct<TSource, TResult>
                 var memberInfos = typeof(TResult).GetMembers();
                 foreach (var member in memberInfos)
                 {
+                    var type = typeof(TResult);
+                    type.GetMember(name);
                     switch (member)
                     {
-                        case PropertyInfo prop when prop.Name == name:
+                        case PropertyInfo prop:
                             prop.SetValue(result, null);
                             break;
-                        case FieldInfo field when field.Name == name:
+                        case FieldInfo field:
                             field.SetValue(result, null);
                             break;
                     }
