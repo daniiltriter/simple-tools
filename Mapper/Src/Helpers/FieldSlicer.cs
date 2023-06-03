@@ -23,8 +23,7 @@ internal static class FieldSlicer
                 };
                 cuts.Add(cut);
             }
-            
-            if (m is FieldInfo field)
+            else if (m is FieldInfo field)
             {
                 var fieldType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
                 var cut = new FieldCut
@@ -39,7 +38,7 @@ internal static class FieldSlicer
         return cuts;
     }
     
-    public static ICollection<FieldCut> ByType<TSource>()
+    public static ICollection<FieldCut> Cut<TSource>(TSource source)
     {
         var cuts = new List<FieldCut>();
         var members = typeof(TSource).GetMembers();
@@ -52,23 +51,40 @@ internal static class FieldSlicer
                 {
                     Name = property.Name,
                     Type = propertyType, 
-                    Value = default,
+                    Value = property.GetValue(source),
                     MemberType = MemberType.Property
                 };
                 cuts.Add(cut);
             }
-            
-            if (m is FieldInfo field)
+            else if (m is FieldInfo field)
             {
                 var fieldType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
                 var cut = new FieldCut
                 {
                     Name = field.Name,
                     Type = fieldType, 
-                    Value = default,
+                    Value = field.GetValue(source),
                     MemberType = MemberType.Field
                 };
                 cuts.Add(cut);
+            }
+        });
+        return cuts;
+    }
+    
+    public static Dictionary<string, object> ByTypeDict<TSource>(TSource source)
+    {
+        var cuts = new Dictionary<string, object>();
+        var members = typeof(TSource).GetMembers();
+        members.ForEach(m =>
+        {
+            if (m is PropertyInfo property)
+            {
+                cuts.TryAdd(property.Name, property.GetValue(source));
+            }
+            else if (m is FieldInfo field)
+            {
+                cuts.TryAdd(field.Name, field.GetValue(source));
             }
         });
         return cuts;

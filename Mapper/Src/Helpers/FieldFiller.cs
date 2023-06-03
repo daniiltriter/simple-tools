@@ -5,40 +5,45 @@ namespace SimpleTools.Mapper.Helpers;
 
 internal static class FieldFiller
 {
-    public static TFilled ByCuts<TFilled>(IEnumerable<FieldCut> cuts) where TFilled : new()
+    public static TFilled FromCuts<TFilled>(IEnumerable<FieldCut> cuts) where TFilled : new()
     {
         var result = new TFilled();
         var resultType = result.GetType();
 
         foreach (var cut in cuts)
         {
-            if (cut.MemberType == MemberType.Field)
+            switch (cut.MemberType)
             {
-                var requiredField = resultType.GetField(cut.Name);
-                if (requiredField == null)
+                case MemberType.Field:
                 {
-                    continue;
-                }
-                var fieldType = Nullable.GetUnderlyingType(requiredField.FieldType) ?? requiredField.FieldType;
-                if (requiredField.FieldType == fieldType)
-                {
-                    requiredField.SetValue(result, cut.Value);
-                } 
-                continue;
-            }
+                    var requiredField = resultType.GetField(cut.Name);
+                    if (requiredField == null)
+                    {
+                        continue;
+                    }
+                    var fieldType = Nullable.GetUnderlyingType(requiredField.FieldType) ?? requiredField.FieldType;
+                    if (cut.Type == fieldType)
+                    {
+                        requiredField.SetValue(result, cut.Value);
+                    }
 
-            if (cut.MemberType == MemberType.Property)
-            {
-                var requiredProperty = resultType.GetField(cut.Name);
-                if (requiredProperty == null)
-                {
-                    continue;
+                    break;
                 }
-
-                var propertyType = Nullable.GetUnderlyingType(requiredProperty.FieldType) ?? requiredProperty.FieldType;
-                if (requiredProperty.FieldType == propertyType)
+                case MemberType.Property:
                 {
-                    requiredProperty.SetValue(result, cut.Value);
+                    var requiredProperty = resultType.GetProperty(cut.Name);
+                    if (requiredProperty == null)
+                    {
+                        continue;
+                    }
+
+                    var propertyType = Nullable.GetUnderlyingType(requiredProperty.PropertyType) ?? requiredProperty.PropertyType;
+                    if (cut.Type == propertyType)
+                    {
+                        requiredProperty.SetValue(result, cut.Value);
+                    }
+
+                    break;
                 }
             }
         }

@@ -10,18 +10,18 @@ namespace Mapper.Benchmark.Helpers;
 
 public static class Preparer
 {
-    public static IMapper NewSimpleMapper()
-    {
-        var rawOptions = new MapperOptions();
-        var completedOptions = rawOptions.With<ActorMapConfiguration>();
-        var cuts = new TypeCutCache();
-        
-        return new DefaultMapper(completedOptions, cuts);
-    }
+    // public static IMapper NewSimpleMapper()
+    // {
+    //     var rawOptions = new MapperOptions();
+    //     var completedOptions = rawOptions.With<ActorMapConfiguration>();
+    //     var cuts = new TypeCutCache();
+    //     
+    //     return new DefaultMapper(completedOptions, cuts);
+    // }
     
     public static AutoMapper.IMapper NewAutoMapper()
     {
-        var config = new MapperConfiguration(cfg => cfg.CreateMap<Actor, ActorModel>());
+        var config = new MapperConfiguration(cfg => cfg.AddProfile<MapProfile>());
         return config.CreateMapper();
     }
 

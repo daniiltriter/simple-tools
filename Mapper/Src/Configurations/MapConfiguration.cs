@@ -6,7 +6,7 @@ namespace SimpleTools.Mapper.Configurations;
 public abstract class MapConfiguration
 {
     private KeyValuePair<Type, Type> _sourceResultTypePair;
-    private readonly ICollection<MapCriterion> _сriteria = new List<MapCriterion>();
+    private readonly ICollection<MapCriterion> _criteria = new List<MapCriterion>();
 
     protected MapConfiguration()
     {
@@ -21,16 +21,14 @@ public abstract class MapConfiguration
         var criteria = act.TransitCriteria();
         foreach (var criterion in criteria)
         {
-            _сriteria.Add(criterion);
+            _criteria.Add(criterion);
         }
     }
 
-    internal void Apply<TResult>(ref TResult result)
+    internal void Apply<TSource, TResult, TMember>(TSource source, FieldCut cut)
     {
-        foreach (var сriterion in _сriteria)
-        {
-            сriterion.Action(result);
-        }
+        var required = _criteria.FirstOrDefault(c => c.FieldName == cut.Name);
+        cut.Value = ((Func<TSource, TMember>)(object)required.Action)(source);
     }
 
     internal (Type, Type) GetTypePair()

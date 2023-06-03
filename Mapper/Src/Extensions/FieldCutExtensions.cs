@@ -14,4 +14,15 @@ internal static class FieldCutExtensions
             MemberType.Property => sourceType.GetProperty(cut.Name).GetValue(source)
         };
     }
+
+    public static Dictionary<string, object> ToDictionary(this ICollection<FieldCut> cuts)
+    {
+        var result = new Dictionary<string, object>();
+        cuts.ForEach(c =>
+        {
+            result.TryAdd(c.Name, c.Value);
+        });
+
+        return result;
+    }
 }

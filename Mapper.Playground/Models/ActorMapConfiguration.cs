@@ -8,7 +8,8 @@ public class ActorMapConfiguration : MapConfiguration
     {
         SetOptions<Actor, ActorModel>(options =>
         {
-            options.Ignore(_ => _.Name);
+            options.Ignore(_ => _.Role);
+            //options.Alternate(_ => _.Name, _ => "lol");
         });
     }
 }

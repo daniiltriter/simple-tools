@@ -22,7 +22,11 @@ public class MapperOptions
                  return config;
              }
         }
-        
         return null;
+    }
+
+    internal ICollection<MapConfiguration> GetConfigurations()
+    {
+        return _configurations;
     }
 }
