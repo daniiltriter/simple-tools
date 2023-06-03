@@ -6,7 +6,7 @@ namespace SimpleTools.Mapper.Helpers;
 
 internal static class FieldSlicer
 {
-    public static IEnumerable<FieldCut> Cuts<TSource>(TSource source)
+    public static IEnumerable<FieldCut> ByObject<TSource>(TSource source)
     {
         var cuts = new List<FieldCut>();
         var members = typeof(TSource).GetMembers();
@@ -15,50 +15,78 @@ internal static class FieldSlicer
             if (m is PropertyInfo property)
             {
                 var propertyType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-                var cut = new FieldCut(property.Name, propertyType, property.GetValue(source));
+                var cut = new FieldCut
+                {
+                    Name = property.Name,
+                    Type = propertyType, 
+                    Value = property.GetValue(source)
+                };
                 cuts.Add(cut);
             }
-            
-            if (m is FieldInfo field)
+            else if (m is FieldInfo field)
             {
                 var fieldType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
-                var cut = new FieldCut(field.Name, fieldType, field.GetValue(source));
+                var cut = new FieldCut
+                {
+                    Name = field.Name,
+                    Type = fieldType, 
+                    Value = field.GetValue(source)
+                };
                 cuts.Add(cut);
             }
         });
         return cuts;
     }
     
-    public static bool TryCut<TSource>(MemberInfo member, out FieldCut result)
+    public static ICollection<FieldCut> Cut<TSource>(TSource source)
     {
-        if (member is PropertyInfo property)
+        var cuts = new List<FieldCut>();
+        var members = typeof(TSource).GetMembers();
+        members.ForEach(m =>
         {
-            result = new FieldCut(property.Name, property.PropertyType, property.GetValue(member));
-            return true;
-        }
-        
-        if (member is FieldInfo field)
-        {
-            result = new FieldCut(field.Name, field.FieldType, field.GetValue(member));
-            return true;
-        }
-
-        result = null;
-        return false;
+            if (m is PropertyInfo property)
+            {
+                var propertyType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                var cut = new FieldCut
+                {
+                    Name = property.Name,
+                    Type = propertyType, 
+                    Value = property.GetValue(source),
+                    MemberType = MemberType.Property
+                };
+                cuts.Add(cut);
+            }
+            else if (m is FieldInfo field)
+            {
+                var fieldType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
+                var cut = new FieldCut
+                {
+                    Name = field.Name,
+                    Type = fieldType, 
+                    Value = field.GetValue(source),
+                    MemberType = MemberType.Field
+                };
+                cuts.Add(cut);
+            }
+        });
+        return cuts;
     }
     
-    public static FieldCut Cut<TSource>(MemberInfo member)
+    public static Dictionary<string, object> ByTypeDict<TSource>(TSource source)
     {
-        if (member is PropertyInfo property)
+        var cuts = new Dictionary<string, object>();
+        var members = typeof(TSource).GetMembers();
+        members.ForEach(m =>
         {
-            return new FieldCut(property.Name, property.PropertyType, property.GetValue(member));
-        }
-        
-        if (member is FieldInfo field)
-        {
-            return new FieldCut(field.Name, field.FieldType, field.GetValue(member));
-        }
-
-        return null;
+            if (m is PropertyInfo property)
+            {
+                cuts.TryAdd(property.Name, property.GetValue(source));
+            }
+            else if (m is FieldInfo field)
+            {
+                cuts.TryAdd(field.Name, field.GetValue(source));
+            }
+        });
+        return cuts;
     }
 }

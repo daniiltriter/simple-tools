@@ -1,4 +1,5 @@
 using SimpleTools.Mapper.Configurations;
+using SimpleTools.MapperBenchmark.Objects;
 
 namespace SimpleTools.MapperPlayground.Models;
 
@@ -8,8 +9,7 @@ public class ActorMapConfiguration : MapConfiguration
     {
         SetOptions<Actor, ActorModel>(options =>
         {
-            //options.Ignore(_ => _.Name);
-            options.Alternate(_ => _.Name, _ => "lol");
+            options.Ignore(_ => _.Name);
         });
     }
 }

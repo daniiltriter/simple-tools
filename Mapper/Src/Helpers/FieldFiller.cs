@@ -5,28 +5,49 @@ namespace SimpleTools.Mapper.Helpers;
 
 internal static class FieldFiller
 {
-    public static TFilled ByCuts<TFilled>(IEnumerable<FieldCut> cuts) where TFilled : new()
+    public static TFilled FromCuts<TFilled>(IEnumerable<FieldCut> cuts) where TFilled : new()
     {
         var result = new TFilled();
-        
-        var resultMembers = result.GetType().GetMembers();
-        foreach (var member in resultMembers)
-        {
-            if (member is PropertyInfo property)
-            {
-                var receivedType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-                var requiredCut = cuts.FirstOrDefault(_ => _.Name == property.Name && _.Type == receivedType);
-                property.SetValue(result, requiredCut?.Value);
-            }
+        var resultType = result.GetType();
 
-            if (member is FieldInfo field)
+        foreach (var cut in cuts)
+        {
+            switch (cut.MemberType)
             {
-                var receivedType = Nullable.GetUnderlyingType(field.FieldType) ?? field.FieldType;
-                var requiredSlice = cuts.FirstOrDefault(_ => _.Name == field.Name && _.Type == receivedType);
-                field.SetValue(result, requiredSlice?.Value);
+                case MemberType.Field:
+                {
+                    var requiredField = resultType.GetField(cut.Name);
+                    if (requiredField == null)
+                    {
+                        continue;
+                    }
+                    var fieldType = Nullable.GetUnderlyingType(requiredField.FieldType) ?? requiredField.FieldType;
+                    if (cut.Type == fieldType)
+                    {
+                        requiredField.SetValue(result, cut.Value);
+                    }
+
+                    break;
+                }
+                case MemberType.Property:
+                {
+                    var requiredProperty = resultType.GetProperty(cut.Name);
+                    if (requiredProperty == null)
+                    {
+                        continue;
+                    }
+
+                    var propertyType = Nullable.GetUnderlyingType(requiredProperty.PropertyType) ?? requiredProperty.PropertyType;
+                    if (cut.Type == propertyType)
+                    {
+                        requiredProperty.SetValue(result, cut.Value);
+                    }
+
+                    break;
+                }
             }
         }
-
+        
         return result;
     }
 }

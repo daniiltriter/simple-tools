@@ -21,13 +21,6 @@ var mapper = services.GetService<IMapper>();
 var model = mapper.Map<Actor, ActorModel>(actor);
 
 // assert
-model.Name.Should().BeNull();
+model.Name.Should().Be(actor.Name);
 model.Role.Should().Be(actor.Role);
 model.Settings.Should().Be(actor.Settings);
-
-
-
-
-
-
-
