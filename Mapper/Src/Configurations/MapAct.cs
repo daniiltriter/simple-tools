@@ -49,7 +49,7 @@ internal class MapAct<TSource, TResult> : IMapAct<TSource, TResult>
         var newCriterion = new MapCriterion()
         {
             FieldName = name,
-            Action = _ => default,
+            Action = new Func<TSource, TMember>(_ => default),
             MemberType = typeof(TMember)
         };
         _criteria.Add(newCriterion);
@@ -64,7 +64,7 @@ internal class MapAct<TSource, TResult> : IMapAct<TSource, TResult>
         var newCriterion = new MapCriterion()
         {
             FieldName = name,
-            Action = (Func<object, object>)(object)alternate,
+            Action = alternate,
             MemberType = typeof(TMember)
         };
         _criteria.Add(newCriterion);

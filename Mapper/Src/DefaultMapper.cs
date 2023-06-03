@@ -1,12 +1,10 @@
-using System.Reflection;
 using Mapper;
-using Microsoft.Extensions.DependencyInjection;
 using SimpleTools.Mapper.Abstractions;
 using SimpleTools.Mapper.Configurations;
 using SimpleTools.Mapper.DI;
-using SimpleTools.Mapper.Extensions;
 using SimpleTools.Mapper.Helpers;
 using SimpleTools.Mapper.Primitivies;
+using static  System.Reflection.BindingFlags;
 
 namespace SimpleTools.Mapper;
 
@@ -14,18 +12,11 @@ public class DefaultMapper : IMapper
 {
     private readonly MapperOptions _options;
     private readonly TypeCutCache _cuts;
-    private readonly IServiceProvider _services;
 
-    // public DefaultMapper(MapperOptions options, TypeCutCache cuts)
-    // {
-    //     _options = options;
-    //     _cuts = cuts;
-    // }
-    public DefaultMapper(IServiceProvider services)
+    public DefaultMapper(TypeCutCache cuts, MapperOptions options)
     {
-        _services = services;
-        _cuts = services.GetService<TypeCutCache>();
-        _options = services.GetService<MapperOptions>();
+        _cuts = cuts;
+        _options = options;
     }
     
     public TResult Map<TSource, TResult>(TSource source) where TResult : new()
@@ -51,21 +42,11 @@ public class DefaultMapper : IMapper
         {
             foreach (var cut in cuts)
             {
-                //config.Apply<TSource, TResult>(cut);
-                var rawMethod = config.GetType().BaseType.GetMembers();
-                //var preparedMethod = rawMethod.MakeGenericMethod(typeof(TSource), typeof(TResult), cut.Type);
-                //preparedMethod.Invoke(config, new object[]{ source, cut });
+                var rawMethod = typeof(MapConfiguration).GetMethod("Apply", NonPublic | Instance);
+                var preparedMethod = rawMethod.MakeGenericMethod(typeof(TSource), typeof(TResult), cut.Type);
+                preparedMethod.Invoke(config, new object[]{ source, cut });
             }
             
         }
     }
-    
-    // private void ApplyOptions<TSource, TResult>(TSource source, ref ICollection<FieldCut> cuts)
-    // {
-    //     var config = _options.GetPairConfiguration<TSource, TResult>();
-    //     if (config != null)
-    //     {
-    //         config.Apply(ref result);
-    //     }
-    // }
 }

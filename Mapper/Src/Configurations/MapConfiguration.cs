@@ -28,7 +28,11 @@ public abstract class MapConfiguration
     internal void Apply<TSource, TResult, TMember>(TSource source, FieldCut cut)
     {
         var required = _criteria.FirstOrDefault(c => c.FieldName == cut.Name);
-        cut.Value = ((Func<TSource, TMember>)(object)required.Action)(source);
+        if (required != null)
+        {
+            cut.Value = ((Func<TSource, TMember>)(object)required.Action)(source);
+        }
+        
     }
 
     internal (Type, Type) GetTypePair()
